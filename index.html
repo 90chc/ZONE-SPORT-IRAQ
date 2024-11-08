@@ -68,6 +68,25 @@
             cursor: pointer;
             z-index: 10001;
         }
+
+        .control-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        .control-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -75,7 +94,7 @@
 
     <div class="container">
         <div class="video-container">
-            <!-- تضمين YouTube iframe -->
+            <!-- تضمين YouTube iframe مع تفعيل JS API -->
             <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
@@ -84,6 +103,9 @@
     <div id="unmuteMessage" class="unmute-message">
         CLICK HERE TO UNMUTE
     </div>
+
+    <!-- زر التحكم في الصوت -->
+    <button id="controlButton" class="control-button">Unmute</button>
 
     <script>
         // انتظار تحميل الصفحة
@@ -128,6 +150,44 @@
             // عند تحميل المشغل، نقوم بإلغاء الكتم
             function onPlayerReady(event) {
                 event.target.unMute(); // إلغاء الكتم
+            }
+        };
+
+        // عند النقر على زر التحكم، نقوم بتبديل حالة الصوت (كتم/إلغاء كتم)
+        document.getElementById('controlButton').onclick = function () {
+            var iframe = document.getElementById("videoIframe");
+            var player;
+
+            // التحقق من أن الـ iframe قد تم تحميله وتهيئة YouTube API
+            if (typeof(YT) === 'undefined' || typeof(YT.Player) === 'undefined') {
+                var script = document.createElement('script');
+                script.src = "https://www.youtube.com/iframe_api";
+                document.body.appendChild(script);
+                script.onload = function () {
+                    initializePlayer();
+                };
+            } else {
+                initializePlayer();
+            }
+
+            function initializePlayer() {
+                // تهيئة player
+                player = new YT.Player('videoIframe', {
+                    events: {
+                        'onReady': onPlayerReady
+                    }
+                });
+            }
+
+            // عند تحميل المشغل نقوم بتبديل حالة الصوت
+            function onPlayerReady(event) {
+                if (event.target.isMuted()) {
+                    event.target.unMute(); // إذا كان مكتومًا، نقوم بإلغاء الكتم
+                    document.getElementById('controlButton').innerText = "Mute"; // تغيير النص إلى Mute
+                } else {
+                    event.target.mute(); // إذا كان غير مكتوم، نقوم بكتمه
+                    document.getElementById('controlButton').innerText = "Unmute"; // تغيير النص إلى Unmute
+                }
             }
         };
     </script>
