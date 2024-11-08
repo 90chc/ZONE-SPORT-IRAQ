@@ -107,6 +107,20 @@
             text-decoration: none;
         }
 
+        .unmute-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -135,6 +149,11 @@
             <!-- iframe with dynamically changed src -->
             <iframe id="videoIframe" allowfullscreen="true" frameborder="0" scrolling="1"></iframe>
         </div>
+    </div>
+
+    <!-- رسالة فتح الصوت -->
+    <div id="unmuteMessage" class="unmute-message">
+        CLICK HERE TO UNMUTE
     </div>
 
     <script>
@@ -198,22 +217,33 @@
             setVideoBasedOnSpeed(speed);
 
             // Simulate click to unmute
-            setTimeout(function() {
-                var iframeDocument = iframe.contentWindow.document;
-                var unmuteButton = iframeDocument.querySelector('button[aria-label="Unmute"]'); // Change this selector to match the "Unmute" button
-                if (unmuteButton) {
-                    unmuteButton.click();  // Simulate click on unmute button
-                }
-            }, 1000); // Simulate click after 1 second
+            setTimeout(function () {
+                // Display "CLICK HERE TO UNMUTE" message
+                document.getElementById('unmuteMessage').style.display = 'block';
+                
+                // Simulate click on "CLICK HERE TO UNMUTE"
+                setTimeout(function() {
+                    document.getElementById('unmuteMessage').click();
+                }, 1000); // Simulate click after 1 second
+            }, 1000); // Show "CLICK HERE TO UNMUTE" after 1 second
         };
 
+        // Function to handle click on unmute
+        document.getElementById('unmuteMessage').onclick = function() {
+            // Hide the unmute message
+            document.getElementById('unmuteMessage').style.display = 'none';
+            var iframe = document.getElementById("videoIframe");
+
+            // Unmute the video (example for YouTube iframe)
+            var iframeDoc = iframe.contentWindow.document;
+            var muteButton = iframeDoc.querySelector('button[aria-label="Unmute"]'); // Adjust as needed for the video player
+
+            if (muteButton) {
+                muteButton.click();  // Simulate click on unmute button
+            }
+        };
     </script>
 
     <!-- حقوق الطبع والنشر -->
     <div class="copyright">
-        <p>إن هذا الموقع محفوظة الحقوق عند <strong>تطبيق زون سبورت</strong> © الافضل في البث المباشر</p>
-    </div>
-
-</body>
-
-</html>
+        <p>إن هذا الموقع محفوظة الحقوق عند <strong>تطبيق زون سبورت</strong> © الافضل في البث المباشر</p
