@@ -75,8 +75,8 @@
 
     <div class="container">
         <div class="video-container">
-            <!-- إضافة فيديو أو مشغل مع خاصية "muted" -->
-            <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <!-- تضمين YouTube iframe -->
+            <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -86,27 +86,48 @@
     </div>
 
     <script>
-        // إظهار رسالة "Click here to unmute" بعد تحميل الصفحة
+        // انتظار تحميل الصفحة
         window.onload = function () {
-            // إظهار رسالة فتح الصوت
+            // عرض الرسالة بعد تحميل الصفحة
             setTimeout(function () {
                 document.getElementById('unmuteMessage').style.display = 'block';
             }, 1000);
         };
 
-        // عندما يتم النقر على الرسالة لإلغاء الكتم
+        // عند النقر على الرسالة لإلغاء الكتم
         document.getElementById('unmuteMessage').onclick = function () {
             // إخفاء الرسالة بعد النقر
             document.getElementById('unmuteMessage').style.display = 'none';
 
-            // إلغاء الكتم (يتم ذلك بشكل يدوي باستخدام JavaScript)
+            // الحصول على iframe وتهيئة الـ YouTube Player API
             var iframe = document.getElementById("videoIframe");
-            var iframeWindow = iframe.contentWindow;
+            var player;
 
-            // الوصول إلى محرك الفيديو داخل الـ iframe وإلغاء كتم الصوت
-            var video = iframeWindow.document.querySelector('video');
-            if (video) {
-                video.muted = false; // إلغاء الكتم
+            // التحقق من أن الـ iframe قد تم تحميله وتهيئة YouTube API
+            if (typeof(YT) === 'undefined' || typeof(YT.Player) === 'undefined') {
+                // تحميل API يوتيوب إذا لم يكن محملًا
+                var script = document.createElement('script');
+                script.src = "https://www.youtube.com/iframe_api";
+                document.body.appendChild(script);
+                script.onload = function () {
+                    initializePlayer();
+                };
+            } else {
+                initializePlayer();
+            }
+
+            function initializePlayer() {
+                // تهيئة player
+                player = new YT.Player('videoIframe', {
+                    events: {
+                        'onReady': onPlayerReady
+                    }
+                });
+            }
+
+            // عند تحميل المشغل، نقوم بإلغاء الكتم
+            function onPlayerReady(event) {
+                event.target.unMute(); // إلغاء الكتم
             }
         };
     </script>
