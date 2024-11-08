@@ -1,197 +1,151 @@
 <!DOCTYPE html>
 <html lang="ar">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>بث مباشر</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            background: linear-gradient(45deg, #000, #111);
-            transition: background-color 0.3s ease;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 20px;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            height: 500px;
-            border: 3px solid #007bff;
-            border-radius: 8px;
-            overflow: hidden;
-            background: linear-gradient(45deg, #1f1f1f, #2e2e2e);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
-        }
-
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .unmute-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 15px;
-            font-size: 1.2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            z-index: 10001;
-        }
-
-        .control-button {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 10000;
-        }
-
-        .control-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <div class="video-container">
-            <!-- تضمين YouTube iframe مع تفعيل JS API -->
-            <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-    </div>
-
-    <!-- رسالة لفتح الصوت -->
-    <div id="unmuteMessage" class="unmute-message">
-        CLICK HERE TO UNMUTE
-    </div>
-
-    <!-- زر التحكم في الصوت -->
-    <button id="controlButton" class="control-button">Unmute</button>
-
+    <title>موقع زون سبورت</title>
     <script>
-        // انتظار تحميل الصفحة
-        window.onload = function () {
-            // عرض الرسالة بعد تحميل الصفحة
-            setTimeout(function () {
-                document.getElementById('unmuteMessage').style.display = 'block';
-            }, 1000);
-        };
+        window.onload = function() {
+            // تشفير HTML و CSS داخل متغيرات
+            var htmlContent = `
+                <div class="content">
+                    <iframe src="https://yallateri.com/albaplayer/yalla-live-1/?serv=0" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                    <button id="newButton">آخر التحديثات</button>
+                </div>
+                <div id="marquee">
+                    <span>موقع زون سبورت بث مباشر بلا حدود ومجاني لجميع الشبكات</span>
+                </div>
+                <footer>
+                    © جميع حقوق محفوظة زون سبورت الافضل للبث المباشر
+                </footer>
+                <div id="popup" class="popup">
+                    <div class="popup-content">
+                        <p>آخر تحديث للموقع بتاريخ 2023/11/8</p>
+                        <p>شكراً لاستخدامك موقع زون سبورت 🇮🇶</p>
+                        <button id="closePopup">إغلاق</button>
+                    </div>
+                </div>
+            `;
 
-        // عند النقر على الرسالة لإلغاء الكتم
-        document.getElementById('unmuteMessage').onclick = function () {
-            // إخفاء الرسالة بعد النقر
-            document.getElementById('unmuteMessage').style.display = 'none';
-
-            // الحصول على iframe وتهيئة الـ YouTube Player API
-            var iframe = document.getElementById("videoIframe");
-            var player;
-
-            // التحقق من أن الـ iframe قد تم تحميله وتهيئة YouTube API
-            if (typeof(YT) === 'undefined' || typeof(YT.Player) === 'undefined') {
-                // تحميل API يوتيوب إذا لم يكن محملًا
-                var script = document.createElement('script');
-                script.src = "https://www.youtube.com/iframe_api";
-                document.body.appendChild(script);
-                script.onload = function () {
-                    initializePlayer();
-                };
-            } else {
-                initializePlayer();
-            }
-
-            function initializePlayer() {
-                // تهيئة player
-                player = new YT.Player('videoIframe', {
-                    events: {
-                        'onReady': onPlayerReady
-                    }
-                });
-            }
-
-            // عند تحميل المشغل، نقوم بإلغاء الكتم
-            function onPlayerReady(event) {
-                event.target.unMute(); // إلغاء الكتم
-            }
-        };
-
-        // عند النقر على زر التحكم، نقوم بتبديل حالة الصوت (كتم/إلغاء كتم)
-        document.getElementById('controlButton').onclick = function () {
-            var iframe = document.getElementById("videoIframe");
-            var player;
-
-            // التحقق من أن الـ iframe قد تم تحميله وتهيئة YouTube API
-            if (typeof(YT) === 'undefined' || typeof(YT.Player) === 'undefined') {
-                var script = document.createElement('script');
-                script.src = "https://www.youtube.com/iframe_api";
-                document.body.appendChild(script);
-                script.onload = function () {
-                    initializePlayer();
-                };
-            } else {
-                initializePlayer();
-            }
-
-            function initializePlayer() {
-                // تهيئة player
-                player = new YT.Player('videoIframe', {
-                    events: {
-                        'onReady': onPlayerReady
-                    }
-                });
-            }
-
-            // عند تحميل المشغل نقوم بتبديل حالة الصوت
-            function onPlayerReady(event) {
-                if (event.target.isMuted()) {
-                    event.target.unMute(); // إذا كان مكتومًا، نقوم بإلغاء الكتم
-                    document.getElementById('controlButton').innerText = "Mute"; // تغيير النص إلى Mute
-                } else {
-                    event.target.mute(); // إذا كان غير مكتوم، نقوم بكتمه
-                    document.getElementById('controlButton').innerText = "Unmute"; // تغيير النص إلى Unmute
+            var cssContent = `
+                body {
+                    background-color: black;
+                    color: white;
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    height: 100vh;
+                    display: flex;
+                    flex-direction: column;
                 }
-            }
-        };
+                .content {
+                    flex: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                }
+                footer {
+                    text-align: center;
+                    padding: 20px 10px;
+                    background-color: black;
+                    color: yellow;
+                    border-top: 5px solid yellow;
+                    position: relative;
+                    font-size: 10px;
+                }
+                #newButton {
+                    position: absolute;
+                    top: 40px;
+                    left: 5px;
+                    background-color: yellow;
+                    color: black;
+                    border: none;
+                    padding: 8px 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    z-index: 10;
+                    border-radius: 5px;
+                }
+                #marquee {
+                    width: 100%;
+                    background-color: black;
+                    color: yellow;
+                    text-align: center;
+                    padding: 1px 0;
+                    font-size: 9px;
+                    font-weight: bold;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    z-index: 15;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+                #marquee span {
+                    display: inline-block;
+                    animation: scroll-left 15s linear infinite;
+                }
+                @keyframes scroll-left {
+                    from {
+                        transform: translateX(100%);
+                    }
+                    to {
+                        transform: translateX(-100%);
+                    }
+                }
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                }
+                .popup {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.7);
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 20;
+                }
+                .popup-content {
+                    background-color: white;
+                    color: black;
+                    padding: 20px;
+                    border-radius: 10px;
+                    text-align: center;
+                }
+                #closePopup {
+                    background-color: red;
+                    color: white;
+                    border: none;
+                    padding: 10px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+            `;
+
+            // إضافة CSS إلى الصفحة
+            var styleTag = document.createElement('style');
+            styleTag.innerHTML = cssContent;
+            document.head.appendChild(styleTag);
+
+            // إضافة HTML إلى الصفحة
+            document.body.innerHTML = htmlContent;
+
+            // وظائف JavaScript للتحكم في النوافذ المنبثقة
+            document.getElementById('newButton').addEventListener('click', function() {
+                document.getElementById('popup').style.display = 'flex';
+            });
+
+            document.getElementById('closePopup').addEventListener('click', function() {
+                document.getElementById('popup').style.display = 'none';
+            });
+        }
     </script>
-
+</head>
+<body>
 </body>
-
 </html>
