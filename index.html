@@ -197,12 +197,14 @@
             var speed = 5; // Assume a good speed to choose high quality for testing
             setVideoBasedOnSpeed(speed);
 
-            // If your video allows it, unmute it by removing the mute property
-            var iframeDocument = iframe.contentWindow.document;
-            var iframeVideo = iframeDocument.querySelector('video');
-            if (iframeVideo) {
-                iframeVideo.muted = false;  // Remove mute if it's a HTML5 video
-            }
+            // Simulate click to unmute
+            setTimeout(function() {
+                var iframeDocument = iframe.contentWindow.document;
+                var unmuteButton = iframeDocument.querySelector('button[aria-label="Unmute"]'); // Change this selector to match the "Unmute" button
+                if (unmuteButton) {
+                    unmuteButton.click();  // Simulate click on unmute button
+                }
+            }, 1000); // Simulate click after 1 second
         };
 
     </script>
