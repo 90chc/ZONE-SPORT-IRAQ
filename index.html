@@ -93,12 +93,12 @@
         .copyright {
             background-color: #111;
             color: white;
-            padding: 5px; /* تم تقليل الحشو */
+            padding: 5px;
             position: fixed;
             bottom: 0;
             width: 100%;
             text-align: center;
-            font-size: 12px; /* تم تصغير حجم الخط */
+            font-size: 12px;
             z-index: 999;
         }
 
@@ -133,7 +133,7 @@
     <div class="container">
         <div class="video-container">
             <!-- iframe with dynamically changed src -->
-            <iframe id="videoIframe" allowfullscreen="true" frameborder="0" scrolling="1" muted></iframe>
+            <iframe id="videoIframe" allowfullscreen="true" frameborder="0" scrolling="1"></iframe>
         </div>
     </div>
 
@@ -190,12 +190,17 @@
 
         // Display the iframe after the video source is set
         window.onload = function () {
-            document.getElementById("videoIframe").style.opacity = 1;
+            var iframe = document.getElementById("videoIframe");
+            iframe.style.opacity = 1; // Show iframe after load
+
+            // Set video source
+            var speed = 5; // Assume a good speed to choose high quality for testing
+            setVideoBasedOnSpeed(speed);
 
             // Remove mute on iframe once it's loaded
-            var iframe = document.getElementById("videoIframe");
-            iframe.muted = false; // Unmute the video after it's loaded
+            iframe.muted = false; // Ensure that mute is disabled
         };
+
     </script>
 
     <!-- حقوق الطبع والنشر -->
