@@ -40,7 +40,7 @@
                     height: 100vh;
                     display: flex;
                     flex-direction: column;
-                    transition: all 0.3s ease; /* انتقالات سلسة */
+                    transition: all 0.3s ease;
                 }
                 .content {
                     flex: 1;
@@ -71,10 +71,10 @@
                     z-index: 10;
                     border-radius: 5px;
                     opacity: 1;
-                    transition: opacity 0.3s ease; /* تأثير التلاشي */
+                    transition: opacity 0.3s ease;
                 }
                 #newButton2 {
-                    top: 80px; /* وضع الزر الجديد تحت الزر الأول */
+                    top: 80px;
                 }
                 #squareButton {
                     position: fixed;
@@ -83,9 +83,9 @@
                     background-color: black;
                     color: white;
                     border: none;
-                    width: 260px;
+                    width: 300px;  /* تم تكبير عرض الزر */
                     height: 80px;
-                    font-size: 12px;
+                    font-size: 14px;  /* تم زيادة حجم الخط */
                     cursor: pointer;
                     z-index: 10;
                     border-radius: 5px;
@@ -179,24 +179,19 @@
             // وظائف JavaScript للتحكم في النوافذ المنبثقة
             document.getElementById('newButton').addEventListener('click', function() {
                 document.getElementById('popup').style.display = 'flex';
-                // إضافة تأثير التلاشي عند الضغط
                 document.getElementById('newButton').style.opacity = '0.5';
             });
 
             document.getElementById('closePopup').addEventListener('click', function() {
                 document.getElementById('popup').style.display = 'none';
-                // إعادة الزر لحالته الأصلية
                 document.getElementById('newButton').style.opacity = '1';
             });
 
-            // إضافة حدث الضغط على الزر الجديد لفتح قناة التليجرام
             document.getElementById('newButton2').addEventListener('click', function() {
-                window.location.href = 'https://t.me/ZONE_SPORT_IRAQ'; // رابط قناة التليجرام
-                // إضافة تأثير التلاشي عند الضغط
+                window.location.href = 'https://t.me/ZONE_SPORT_IRAQ';
                 document.getElementById('newButton2').style.opacity = '0.5';
             });
 
-            // إضافة تأثير سلس على الأزرار عند التمرير عليها
             var buttons = document.querySelectorAll('button');
             buttons.forEach(function(button) {
                 button.addEventListener('mouseover', function() {
