@@ -9,8 +9,12 @@
             // تشفير HTML و CSS داخل متغيرات
             var htmlContent = `
                 <div class="content">
-                    <iframe src="https://yallateri.com/albaplayer/yalla-live-1/?serv=0" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://mmmmmmmmm.alkoora.live/albaplayer/on-time-sport-1/" height="100%" frameborder="0" allowfullscreen></iframe>
                     <button id="newButton">آخر التحديثات</button>
+                    <button id="newButton2">الزر الجديد</button> <!-- الزر الجديد -->
+                    <button id="squareButton">
+                        <span class="scrolling-text">جميع حقوق هاذا المباريات محفوظة زون سبورت</span>
+                    </button>
                 </div>
                 <div id="marquee">
                     <span>موقع زون سبورت بث مباشر بلا حدود ومجاني لجميع الشبكات</span>
@@ -36,6 +40,7 @@
                     height: 100vh;
                     display: flex;
                     flex-direction: column;
+                    transition: all 0.3s ease; /* انتقالات سلسة */
                 }
                 .content {
                     flex: 1;
@@ -53,18 +58,54 @@
                     position: relative;
                     font-size: 10px;
                 }
-                #newButton {
-                    position: absolute;
-                    top: 40px;
-                    left: 5px;
+                #newButton, #newButton2 {
+                    position: fixed;
+                    top: 30px;
+                    left: 0;
                     background-color: yellow;
                     color: black;
                     border: none;
-                    padding: 8px 20px;
+                    padding: 10px 25px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    z-index: 10;
+                    border-radius: 5px;
+                    opacity: 1;
+                    transition: opacity 0.3s ease; /* تأثير التلاشي */
+                }
+                #newButton2 {
+                    top: 80px; /* وضع الزر الجديد تحت الزر الأول */
+                }
+                #squareButton {
+                    position: fixed;
+                    bottom: 173px;
+                    right: 20px;
+                    background-color: black;
+                    color: white;
+                    border: none;
+                    width: 260px;
+                    height: 80px;
                     font-size: 12px;
                     cursor: pointer;
                     z-index: 10;
                     border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                }
+                .scrolling-text {
+                    display: inline-block;
+                    white-space: nowrap;
+                    animation: scroll-text 5s linear infinite;
+                }
+                @keyframes scroll-text {
+                    from {
+                        transform: translateX(100%);
+                    }
+                    to {
+                        transform: translateX(-100%);
+                    }
                 }
                 #marquee {
                     width: 100%;
@@ -138,10 +179,33 @@
             // وظائف JavaScript للتحكم في النوافذ المنبثقة
             document.getElementById('newButton').addEventListener('click', function() {
                 document.getElementById('popup').style.display = 'flex';
+                // إضافة تأثير التلاشي عند الضغط
+                document.getElementById('newButton').style.opacity = '0.5';
             });
 
             document.getElementById('closePopup').addEventListener('click', function() {
                 document.getElementById('popup').style.display = 'none';
+                // إعادة الزر لحالته الأصلية
+                document.getElementById('newButton').style.opacity = '1';
+            });
+
+            // إضافة حدث الضغط على الزر الجديد لفتح قناة التليجرام
+            document.getElementById('newButton2').addEventListener('click', function() {
+                window.location.href = 'https://t.me/ZONE_SPORT_IRAQ'; // رابط قناة التليجرام
+                // إضافة تأثير التلاشي عند الضغط
+                document.getElementById('newButton2').style.opacity = '0.5';
+            });
+
+            // إضافة تأثير سلس على الأزرار عند التمرير عليها
+            var buttons = document.querySelectorAll('button');
+            buttons.forEach(function(button) {
+                button.addEventListener('mouseover', function() {
+                    button.style.transform = 'scale(1.1)';
+                    button.style.transition = 'transform 0.3s';
+                });
+                button.addEventListener('mouseout', function() {
+                    button.style.transform = 'scale(1)';
+                });
             });
         }
     </script>
